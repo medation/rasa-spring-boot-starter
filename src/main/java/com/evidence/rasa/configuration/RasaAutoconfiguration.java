@@ -17,7 +17,6 @@ public class RasaAutoconfiguration {
     @Autowired
     private RestTemplate restTemplate;
 
-
     @Bean
     @ConditionalOnMissingBean
     public RasaService rasaService(){

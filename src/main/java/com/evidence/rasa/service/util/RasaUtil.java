@@ -6,6 +6,8 @@ public class RasaUtil {
         switch (rasaEndpoint) {
             case WEBHOOK:
                 return url + Constant.WEBHOOK_ENDPOINT;
+            case STATUS:
+                return url + Constant.STATUS_ENDPOINT;
             case CONVERSATION_TRACKER:
                 return url + String.format(Constant.CONVERSATION_TRACKER_ENDPOINT, params[0]);
             default:

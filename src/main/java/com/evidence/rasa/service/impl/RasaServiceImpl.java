@@ -5,6 +5,7 @@ import com.evidence.rasa.exception.NLUException;
 import com.evidence.rasa.service.RasaService;
 import com.evidence.rasa.service.dto.RasaRequestDTO;
 import com.evidence.rasa.service.dto.RasaResponseDTO;
+import com.evidence.rasa.service.dto.RasaStatusDTO;
 import com.evidence.rasa.service.util.RasaEndpoint;
 import com.evidence.rasa.service.util.RasaUtil;
 import org.springframework.http.HttpEntity;
@@ -30,6 +31,7 @@ public class RasaServiceImpl implements RasaService {
      * @param rasaRequestDTO
      * @param instanceName
      * @return
+     * @throws NLUException
      */
     @Override
     public RasaResponseDTO[] detectIntent(String instanceName, RasaRequestDTO rasaRequestDTO) throws NLUException {
@@ -38,10 +40,10 @@ public class RasaServiceImpl implements RasaService {
             headers.setContentType(MediaType.APPLICATION_JSON);
             HttpEntity<RasaRequestDTO> entity = new HttpEntity<>(rasaRequestDTO, headers);
             RasaProperties.RasaInstance rasaInstance = getRasaInstance(instanceName);
-            ResponseEntity<RasaResponseDTO[]> responseEntity = restTemplate.postForObject(
+            ResponseEntity<RasaResponseDTO[]> responseEntity = restTemplate.postForEntity(
                     RasaUtil.constructEndpoint(rasaInstance.getHost() + ':' + rasaInstance.getPort(), RasaEndpoint.WEBHOOK),
                     entity,
-                    ResponseEntity.class);
+                    RasaResponseDTO[].class);
             if(responseEntity.getStatusCode().is2xxSuccessful())
                 return responseEntity.getBody();
             else
@@ -51,7 +53,29 @@ public class RasaServiceImpl implements RasaService {
         }
     }
 
-    private RasaProperties.RasaInstance getRasaInstance(String name){
+    /**
+     * Get status of Rasa instance
+     * @param instanceName
+     * @return
+     * @throws NLUException
+     */
+    @Override
+    public RasaStatusDTO checkStatus(String instanceName) throws NLUException {
+        try {
+            RasaProperties.RasaInstance rasaInstance = getRasaInstance(instanceName);
+            ResponseEntity<RasaStatusDTO> responseEntity = restTemplate.getForEntity(
+                    RasaUtil.constructEndpoint(rasaInstance.getHost() + ':' + rasaInstance.getPort(), RasaEndpoint.STATUS),
+                    RasaStatusDTO.class);
+            if(responseEntity.getStatusCode().is2xxSuccessful())
+                return responseEntity.getBody();
+            else
+                throw new NLUException("Error while check status of Rasa with status code : " + responseEntity.getStatusCode());
+        } catch (Exception e) {
+            throw new NLUException(e.getMessage(), e.getCause());
+        }
+    }
+
+    private RasaProperties.RasaInstance getRasaInstance(String name) {
         return (RasaProperties.RasaInstance) this.rasaProperties
                 .getRasaInstance()
                 .stream()
