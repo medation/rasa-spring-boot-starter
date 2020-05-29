@@ -27,21 +27,31 @@ public class RasaServiceImpl implements RasaService {
      * Post request message to Rasa Server
      *
      * @param rasaRequestDTO
+     * @param instanceName
      * @return
      */
     @Override
-    public RasaResponseDTO[] detectIntent(RasaRequestDTO rasaRequestDTO) throws NLUException {
+    public RasaResponseDTO[] detectIntent(String instanceName, RasaRequestDTO rasaRequestDTO) throws NLUException {
         try {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
             HttpEntity<RasaRequestDTO> entity = new HttpEntity<>(rasaRequestDTO, headers);
-
-            RasaResponseDTO[] rasaResponseDTO = restTemplate.postForObject(RasaUtil.constructEndpoint(rasaProperties.getHost() + ':' + rasaProperties.getPort(), RasaEndpoint.WEBHOOK), entity, RasaResponseDTO[].class);
+            RasaProperties.RasaInstance rasaInstance = getRasaInstance(instanceName);
+            RasaResponseDTO[] rasaResponseDTO = restTemplate.postForObject(
+                    RasaUtil.constructEndpoint(rasaInstance.getHost() + ':' + rasaInstance.getPort(), RasaEndpoint.WEBHOOK),
+                    entity,
+                    RasaResponseDTO[].class);
             return rasaResponseDTO;
-
         } catch (Exception e) {
             throw new NLUException(e.getMessage(), e.getCause());
         }
+    }
 
+    private RasaProperties.RasaInstance getRasaInstance(String name){
+        return (RasaProperties.RasaInstance) this.rasaProperties
+                .getRasaInstance()
+                .stream()
+                .filter(rasaInstance -> rasaInstance.getName().equals(name))
+                .toArray()[0];
     }
 }

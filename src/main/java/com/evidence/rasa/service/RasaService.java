@@ -9,7 +9,8 @@ public interface RasaService {
     /**
      * Post request message to Rasa Server
      * @param rasaRequestDTO
+     * @param instanceName
      * @return
      */
-    RasaResponseDTO[] detectIntent(RasaRequestDTO rasaRequestDTO) throws NLUException;
+    RasaResponseDTO[] detectIntent(String instanceName, RasaRequestDTO rasaRequestDTO) throws NLUException;
 }

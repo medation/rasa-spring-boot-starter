@@ -1,27 +1,49 @@
 package com.evidence.rasa.configuration;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import java.util.List;
 
-@ConfigurationProperties(prefix="rasa.configuration")
 public class RasaProperties {
 
-    private String host;
+    private List<RasaInstance> rasaInstance;
 
-    private String port;
-
-    public String getHost() {
-        return host;
+    public List<RasaInstance> getRasaInstance() {
+        return rasaInstance;
     }
 
-    public void setHost(String host) {
-        this.host = host;
+    public void setRasaInstance(List<RasaInstance> rasaInstance) {
+        this.rasaInstance = rasaInstance;
     }
 
-    public String getPort() {
-        return port;
-    }
+    public class RasaInstance {
 
-    public void setPort(String port) {
-        this.port = port;
+        private String host;
+
+        private String port;
+
+        private String name;
+
+        public String getHost() {
+            return host;
+        }
+
+        public void setHost(String host) {
+            this.host = host;
+        }
+
+        public String getPort() {
+            return port;
+        }
+
+        public void setPort(String port) {
+            this.port = port;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
     }
 }
