@@ -10,6 +10,7 @@ import com.evidence.rasa.service.util.RasaUtil;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 public class RasaServiceImpl implements RasaService {
@@ -37,11 +38,14 @@ public class RasaServiceImpl implements RasaService {
             headers.setContentType(MediaType.APPLICATION_JSON);
             HttpEntity<RasaRequestDTO> entity = new HttpEntity<>(rasaRequestDTO, headers);
             RasaProperties.RasaInstance rasaInstance = getRasaInstance(instanceName);
-            RasaResponseDTO[] rasaResponseDTO = restTemplate.postForObject(
+            ResponseEntity<RasaResponseDTO[]> responseEntity = restTemplate.postForObject(
                     RasaUtil.constructEndpoint(rasaInstance.getHost() + ':' + rasaInstance.getPort(), RasaEndpoint.WEBHOOK),
                     entity,
-                    RasaResponseDTO[].class);
-            return rasaResponseDTO;
+                    ResponseEntity.class);
+            if(responseEntity.getStatusCode().is2xxSuccessful())
+                return responseEntity.getBody();
+            else
+                throw new NLUException("Error while sending message to Rasa with status code : " + responseEntity.getStatusCode());
         } catch (Exception e) {
             throw new NLUException(e.getMessage(), e.getCause());
         }
