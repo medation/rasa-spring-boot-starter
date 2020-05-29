@@ -14,6 +14,13 @@ public class RasaProperties {
         this.rasaInstance = rasaInstance;
     }
 
+    @Override
+    public String toString() {
+        return "RasaProperties{" +
+                "rasaInstance=" + rasaInstance.toString() +
+                '}';
+    }
+
     public class RasaInstance {
 
         private String host;
@@ -44,6 +51,15 @@ public class RasaProperties {
 
         public void setName(String name) {
             this.name = name;
+        }
+
+        @Override
+        public String toString() {
+            return "RasaInstance{" +
+                    "host='" + host + '\'' +
+                    ", port='" + port + '\'' +
+                    ", name='" + name + '\'' +
+                    '}';
         }
     }
 }

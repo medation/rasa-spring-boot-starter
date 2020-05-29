@@ -8,6 +8,8 @@ import com.evidence.rasa.service.dto.RasaResponseDTO;
 import com.evidence.rasa.service.dto.RasaStatusDTO;
 import com.evidence.rasa.service.util.RasaEndpoint;
 import com.evidence.rasa.service.util.RasaUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -19,6 +21,8 @@ public class RasaServiceImpl implements RasaService {
     private final RestTemplate restTemplate;
 
     private RasaProperties rasaProperties;
+
+    private Logger log = LoggerFactory.getLogger(RasaServiceImpl.class);
 
     public RasaServiceImpl(RestTemplate restTemplate, RasaProperties rasaProperties) {
         this.restTemplate = restTemplate;
@@ -35,6 +39,7 @@ public class RasaServiceImpl implements RasaService {
      */
     @Override
     public RasaResponseDTO[] detectIntent(String instanceName, RasaRequestDTO rasaRequestDTO) throws NLUException {
+        log.debug("Calling service Rasa for detection of intent");
         try {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
@@ -61,6 +66,7 @@ public class RasaServiceImpl implements RasaService {
      */
     @Override
     public RasaStatusDTO checkStatus(String instanceName) throws NLUException {
+        log.debug("Calling service Rasa for checking status of instance");
         try {
             RasaProperties.RasaInstance rasaInstance = getRasaInstance(instanceName);
             ResponseEntity<RasaStatusDTO> responseEntity = restTemplate.getForEntity(

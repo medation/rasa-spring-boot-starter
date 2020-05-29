@@ -2,6 +2,8 @@ package com.evidence.rasa.configuration;
 
 import com.evidence.rasa.service.RasaService;
 import com.evidence.rasa.service.impl.RasaServiceImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -17,9 +19,12 @@ public class RasaAutoconfiguration {
     @Autowired
     private RestTemplate restTemplate;
 
+    private Logger log = LoggerFactory.getLogger(RasaAutoconfiguration.class);
+
     @Bean
     @ConditionalOnMissingBean
     public RasaService rasaService(){
+        log.debug("Instantiation of Rasa service with configuration" );
         return new RasaServiceImpl(restTemplate, rasaProperties());
     }
 
