@@ -1,9 +1,14 @@
 package com.evidence.rasa.configuration;
 
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.NestedConfigurationProperty;
+
 import java.util.List;
 
+@ConfigurationProperties(prefix = "spring.rasa")
 public class RasaProperties {
 
+    @NestedConfigurationProperty
     private List<RasaInstance> rasaInstance;
 
     public List<RasaInstance> getRasaInstance() {
