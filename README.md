@@ -20,9 +20,9 @@ Support jdk version 1.8+
 - Add configuration in application.properties
 
 ```properties
-spring.rasa.rasa-instance[0].host=127.0.0.1
-spring.rasa.rasa-instance[0].port=5005
-spring.rasa.rasa-instance[0].name=default
+spring.rasa.instance[0].host=127.0.0.1
+spring.rasa.instance[0].port=5005
+spring.rasa.instance[0].name=default
 ```
 
 ### Reference

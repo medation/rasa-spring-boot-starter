@@ -9,20 +9,20 @@ import java.util.List;
 public class RasaProperties {
 
     @NestedConfigurationProperty
-    private List<RasaInstance> rasaInstance;
+    private List<RasaInstance> instance;
 
-    public List<RasaInstance> getRasaInstance() {
-        return rasaInstance;
+    public List<RasaInstance> getInstance() {
+        return instance;
     }
 
-    public void setRasaInstance(List<RasaInstance> rasaInstance) {
-        this.rasaInstance = rasaInstance;
+    public void setInstance(List<RasaInstance> instance) {
+        this.instance = instance;
     }
 
     @Override
     public String toString() {
         return "RasaProperties{" +
-                "rasaInstance=" + rasaInstance.toString() +
+                "instance=" + instance.toString() +
                 '}';
     }
 

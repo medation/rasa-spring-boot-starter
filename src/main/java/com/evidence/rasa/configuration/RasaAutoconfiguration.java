@@ -1,10 +1,12 @@
 package com.evidence.rasa.configuration;
 
+import com.evidence.rasa.annotation.EnableRasaConfiguration;
 import com.evidence.rasa.service.RasaService;
 import com.evidence.rasa.service.impl.RasaServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -15,6 +17,7 @@ import org.springframework.web.client.RestTemplate;
 
 @Configuration
 @ConditionalOnClass(RasaService.class)
+@ConditionalOnBean(annotation = EnableRasaConfiguration.class)
 @EnableConfigurationProperties(RasaProperties.class)
 public class RasaAutoconfiguration {
 

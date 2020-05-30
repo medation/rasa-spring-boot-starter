@@ -83,7 +83,7 @@ public class RasaServiceImpl implements RasaService {
 
     private RasaProperties.RasaInstance getRasaInstance(String name) {
         return (RasaProperties.RasaInstance) this.rasaProperties
-                .getRasaInstance()
+                .getInstance()
                 .stream()
                 .filter(rasaInstance -> rasaInstance.getName().equals(name))
                 .toArray()[0];
