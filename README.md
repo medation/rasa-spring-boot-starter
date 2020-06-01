@@ -25,6 +25,8 @@ spring.rasa.instance[0].port=5005
 spring.rasa.instance[0].name=default
 ```
 
+- Add annotation `` @EnableRasaConfiguration`` to the spring boot application
+
 ### Reference
 - spring-boot: https://spring.io/projects/spring-boot
 - rasa: https://rasa.com/docs/
