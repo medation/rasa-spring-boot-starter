@@ -8,7 +8,6 @@ import java.util.List;
 @ConfigurationProperties(prefix = "spring.rasa")
 public class RasaProperties {
 
-    @NestedConfigurationProperty
     private List<RasaInstance> instance;
 
     public List<RasaInstance> getInstance() {
@@ -26,7 +25,7 @@ public class RasaProperties {
                 '}';
     }
 
-    public class RasaInstance {
+    public static class RasaInstance {
 
         private String host;
 
