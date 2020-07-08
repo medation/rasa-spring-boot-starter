@@ -25,7 +25,7 @@ spring.rasa.instance[0].port=5005
 spring.rasa.instance[0].name=default
 ```
 
-- Add `@EnableRasaConfiguration` on Spring Boot Application
+- Add `@EnableRasaConfiguration` on the main application
 
 ### Reference
 - spring-boot: https://spring.io/projects/spring-boot
